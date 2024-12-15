@@ -65,16 +65,19 @@ export class StudentsComponent implements OnInit, AfterViewInit {
       }
     };
 
-    // this.dataSource.filterPredicate = (data: any, filter: string) => {
-    //   const searchStr = filter.toLowerCase();
-    //   return data['Student Name']?.toLowerCase().includes(searchStr) ||
-    //     data['Phone Number']?.includes(searchStr) ||
-    //     data['Alternative Phone']?.includes(searchStr) ||
-    //     data['Parent Name']?.toLowerCase().includes(searchStr);
-    // };
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const searchStr = filter.toLowerCase();
+      return data['Student Name']?.toLowerCase().includes(searchStr) ||
+        data['Phone Number']?.includes(searchStr) ||
+        data['Alternative Phone']?.includes(searchStr) ||
+        data['Parent Name']?.toLowerCase().includes(searchStr);
+    };
 
     effect(() => {
+      console.log('isLoading state:', this.studentsStore.isLoading());
+
       const students = this.studentsStore.students();
+      this.dataSource.data = this.studentsStore.students();
       if (students.length > 0) {
         console.log('First student:', students[0]); // Debug log
         this.dataSource.data = students;
@@ -93,11 +96,11 @@ export class StudentsComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    //
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
