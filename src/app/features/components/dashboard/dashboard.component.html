@@ -1,0 +1,130 @@
+<div class="dashboard-container">
+  <h1>Welcome, {{ authStore.user()?.username || 'Student' }}!</h1>
+
+  <div class="stats-grid" [style.--cols]="cols$ | async">
+    @if (authStore.isAdmin()) {
+      <!-- Admin Dashboard -->
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="primary">people</mat-icon>
+            <div class="stat-info">
+              <h3>Total Students</h3>
+              @if (studentsStore.isLoading()) {
+                <mat-spinner diameter="20"></mat-spinner>
+              } @else {
+                <p class="stat-value">{{ studentsStore.students().length }}</p>
+              }
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="accent">trending_up</mat-icon>
+            <div class="stat-info">
+              <h3>Active Today</h3>
+              <p class="stat-value">25</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="warn">warning</mat-icon>
+            <div class="stat-info">
+              <h3>Pending Actions</h3>
+              <p class="stat-value">5</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="primary">check_circle</mat-icon>
+            <div class="stat-info">
+              <h3>Completed Tasks</h3>
+              <p class="stat-value">12</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <!-- Student Dashboard -->
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="primary">school</mat-icon>
+            <div class="stat-info">
+              <h3>Your Progress</h3>
+              <p class="stat-value">75%</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="accent">event</mat-icon>
+            <div class="stat-info">
+              <h3>Upcoming Events</h3>
+              <p class="stat-value">3</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon color="warn">assignment</mat-icon>
+            <div class="stat-info">
+              <h3>Pending Tasks</h3>
+              <p class="stat-value">2</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  <!-- Recent Activity Section -->
+  <section class="recent-activity">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Recent Activity</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (studentsStore.isLoading()) {
+          <div class="loading-spinner">
+            <mat-spinner diameter="40"></mat-spinner>
+          </div>
+        } @else {
+          <div class="activity-list">
+            <div class="activity-item">
+              <mat-icon color="primary">notification_important</mat-icon>
+              <div class="activity-details">
+                <p class="activity-text">New announcement posted</p>
+                <span class="activity-time">2 hours ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <mat-icon color="accent">event_available</mat-icon>
+              <div class="activity-details">
+                <p class="activity-text">Upcoming event scheduled</p>
+                <span class="activity-time">Yesterday</span>
+              </div>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>

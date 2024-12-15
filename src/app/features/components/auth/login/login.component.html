@@ -1,0 +1,70 @@
+<div class="login-container">
+  <mat-card class="login-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Student Portal Login</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="user-type-toggle">
+          <mat-button-toggle-group [(ngModel)]="userType" [ngModelOptions]="{standalone: true}">
+            <mat-button-toggle value="student">Student</mat-button-toggle>
+            <mat-button-toggle value="admin">Admin</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ userType === 'admin' ? 'Username' : 'Phone Number' }}</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            [placeholder]="userType === 'admin' ? 'Enter username' : 'Enter phone number'"
+            [type]="userType === 'admin' ? 'text' : 'tel'"
+          >
+          <mat-icon matSuffix>{{ userType === 'admin' ? 'person' : 'phone' }}</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword ? 'password' : 'text'"
+            placeholder="Enter password"
+          >
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        @if (authStore.error()) {
+          <div class="error-message">
+            {{ authStore.error() }}
+          </div>
+        }
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="submit-button"
+          [disabled]="loginForm.invalid || authStore.isLoading()"
+        >
+          @if (authStore.isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+            <span>Logging in...</span>
+          } @else {
+            <span>Login</span>
+          }
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

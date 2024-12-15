@@ -1,0 +1,25 @@
+.container {
+  padding: 24px;
+}
+
+.filter-field {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+}
+
+.table-container {
+  position: relative;
+  min-height: 200px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
